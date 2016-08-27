@@ -4,6 +4,8 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -40,5 +42,10 @@ public class Intro {
     private static void assertTooMany(Collection<?> things) {
         if (things.size() < TOO_MANY)
             fail();
+    }
+
+    @Test
+    public void multiplyWorksCorrectly() throws Exception {
+        assertThat(2 * 2, is(4));
     }
 }
