@@ -7,7 +7,7 @@ import static org.junit.Assert.assertThat;
 
 public class CountryTest {
 
-    Country country = () -> "Russia";
+    private Country country = () -> "Russia";
 
     @Test
     public void getCode() throws Exception {
