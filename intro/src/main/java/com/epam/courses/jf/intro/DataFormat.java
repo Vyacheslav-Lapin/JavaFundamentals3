@@ -1,4 +1,4 @@
-package com.epam.courses.jf.se01;
+package com.epam.courses.jf.intro;
 
 import java.util.Collection;
 import java.util.Collections;

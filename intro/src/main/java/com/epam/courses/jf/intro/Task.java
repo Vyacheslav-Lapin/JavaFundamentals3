@@ -1,10 +1,10 @@
-package com.epam.courses.jf.se01;
+package com.epam.courses.jf.intro;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class Protocol {
-    public static Collection<?> getInstances() {
+public class Task {
+    public static Collection<?> getEqualInstances() {
         return Collections.singletonList("");
     }
 }

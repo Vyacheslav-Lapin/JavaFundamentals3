@@ -1,4 +1,4 @@
-import com.epam.courses.jf.se01.*;
+import com.epam.courses.jf.intro.*;
 import org.junit.Test;
 
 import java.util.Collection;

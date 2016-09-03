@@ -1,4 +1,4 @@
-package com.epam.courses.jf.se01;
+package com.epam.courses.jf.intro;
 
 public class Modifiers {
     public static void main(String[] args) {
