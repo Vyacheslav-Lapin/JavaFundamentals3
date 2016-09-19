@@ -1,5 +1,3 @@
-import lombok.SneakyThrows;
-
 public class GetStateDemo implements Runnable{
 
     public void run() {
@@ -7,8 +5,8 @@ public class GetStateDemo implements Runnable{
         System.out.println(thread.getName() + " " + thread.getState());
     }
 
-    @SneakyThrows
-    public static void main(String args[]) {
+//    @SneakyThrows
+    public static void main(String args[]) throws InterruptedException {
         Thread thread = new Thread(new GetStateDemo());
         System.out.println(thread.getName() + " " + thread.getState());
 
