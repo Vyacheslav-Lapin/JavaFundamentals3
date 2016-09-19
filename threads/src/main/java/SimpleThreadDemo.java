@@ -8,7 +8,7 @@ public class SimpleThreadDemo {
         val walking = new Thread(() -> {
             try {
                 for (int i = 0; i < 8; i++) {
-                    System.out.println("Walking");
+                    log.info("Walking");
                     Thread.sleep(400); // 0.4 seconds
                 }
             } catch (InterruptedException e) {
@@ -21,7 +21,7 @@ public class SimpleThreadDemo {
             public void run() {
                 try {
                     for (int i = 0; i < 8; i++) {
-                        System.out.println("Talking");
+                        log.info("Talking");
                         Thread.sleep(400); // 0.4 seconds
                     }
                 } catch (InterruptedException e) {
