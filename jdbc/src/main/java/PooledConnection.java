@@ -16,7 +16,8 @@ import java.util.function.Supplier;
 //3. "$1($2)"
 public interface PooledConnection extends Connection, Supplier<Connection> {
 
-    static PooledConnection create(Connection connection, Consumer<PooledConnection> free) throws SQLException {
+    @SneakyThrows
+    static PooledConnection create(Connection connection, Consumer<PooledConnection> free) {
 
         connection.setAutoCommit(true);
 
@@ -35,16 +36,7 @@ public interface PooledConnection extends Connection, Supplier<Connection> {
 
     @SneakyThrows
     static PooledConnection create(Connection connection, BlockingQueue<Connection> connectionFreeBlockingQueue) {
-        return create(connection, pooledConnection -> {
-            if (connection.isClosed())
-                throw new SQLException("Attempting to close closed connection.");
-
-            if (connection.isReadOnly())
-                connection.setReadOnly(false);
-
-            if (!connectionFreeBlockingQueue.offer(pooledConnection))
-                throw new SQLException("Error allocating connection in the pool.");
-        });
+        return create(connection, connectionFreeBlockingQueue::offer);
     }
 
     default void reallyClose() throws SQLException {
