@@ -1,11 +1,18 @@
 import lombok.SneakyThrows;
 
 import java.io.FileInputStream;
-import java.sql.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @FunctionalInterface
 public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
@@ -30,6 +37,32 @@ public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
                     connectionQueue));
 
         return () -> connectionQueue;
+    }
+
+    @SneakyThrows
+    static ConnectionPool create(String pathToConfig, String pathToInitScript) {
+
+        ConnectionPool connectionPool = create(pathToConfig);
+
+        try (Connection connection = connectionPool.get();
+             Statement statement = connection.createStatement()) {
+
+            Arrays.stream(
+                    Files.lines(Paths.get(pathToInitScript))
+                            .collect(Collectors.joining())
+                            .split(";"))
+                    .forEachOrdered(sql -> {
+                        try {
+                            statement.addBatch(sql);
+                        } catch (SQLException e) {
+                            throw new RuntimeException();
+                        }
+                    });
+
+            statement.executeBatch();
+        }
+
+        return connectionPool;
     }
 
     static String getValueAndRemoveKey(Properties properties, String key) {
