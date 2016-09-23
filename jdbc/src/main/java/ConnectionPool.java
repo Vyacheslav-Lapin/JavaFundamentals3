@@ -13,10 +13,10 @@ public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
     BlockingQueue<Connection> getConnectionQueue();
 
     @SneakyThrows
-    static ConnectionPool create() {
+    static ConnectionPool create(String pathToConfig) {
 
         Properties properties = new Properties();
-        properties.load(new FileInputStream("src/test/resources/db/db.properties"));
+        properties.load(new FileInputStream(pathToConfig));
 
         Class.forName(getValueAndRemoveKey(properties, "driver"));
         String url = getValueAndRemoveKey(properties, "url");
@@ -26,8 +26,8 @@ public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
 
         for (int i = 0; i < poolSize; i++)
             connectionQueue.add(
-                    new PooledConnection(
-                            DriverManager.getConnection(url, properties)));
+                    PooledConnection.create(DriverManager.getConnection(url, properties),
+                    connectionQueue));
 
         return () -> connectionQueue;
     }
