@@ -35,7 +35,7 @@ public interface PooledConnection extends Connection, Supplier<Connection> {
     }
 
     @SneakyThrows
-    static PooledConnection create(Connection connection, BlockingQueue<Connection> connectionFreeBlockingQueue) {
+    static PooledConnection create(Connection connection, BlockingQueue<PooledConnection> connectionFreeBlockingQueue) {
         return create(connection, connectionFreeBlockingQueue::offer);
     }
 

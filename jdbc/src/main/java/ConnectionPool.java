@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @FunctionalInterface
 public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
 
-    BlockingQueue<Connection> getConnectionQueue();
+    BlockingQueue<PooledConnection> getConnectionQueue();
 
     @SneakyThrows
     static ConnectionPool create(String pathToConfig) {
@@ -29,12 +29,13 @@ public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
         String url = getValueAndRemoveKey(properties, "url");
         int poolSize = Integer.parseInt(getValueAndRemoveKey(properties, "poolSize"));
 
-        BlockingQueue<Connection> connectionQueue = new ArrayBlockingQueue<>(poolSize);
+        BlockingQueue<PooledConnection> connectionQueue = new ArrayBlockingQueue<>(poolSize);
 
         for (int i = 0; i < poolSize; i++)
             connectionQueue.add(
-                    PooledConnection.create(DriverManager.getConnection(url, properties),
-                    connectionQueue));
+                    PooledConnection.create(
+                            DriverManager.getConnection(url, properties),
+                            connectionQueue));
 
         return () -> connectionQueue;
     }
@@ -79,7 +80,7 @@ public interface ConnectionPool extends Supplier<Connection>, AutoCloseable {
     default void close() throws Exception {
         getConnectionQueue().forEach(connection -> {
             try {
-                connection.close();
+                connection.reallyClose();
             } catch (SQLException e) {
                 e.printStackTrace();
 //                throw new RuntimeException(e);
