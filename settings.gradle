@@ -4,8 +4,8 @@ include 'core',
         'intro',
         'oop',
         'strings',
-        'io'
-include 'exceptions'
-include 'threads'
-include 'jdbc'
-
+        'io',
+        'exceptions',
+        'threads',
+        'jdbc',
+        'xml'
