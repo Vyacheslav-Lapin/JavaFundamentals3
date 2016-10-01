@@ -4,34 +4,25 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Log
-public class MenuSaxHandler implements DefaultHandler {
+public class MenuSaxHandler implements LoggedHandler {
+
     @Getter
     private List<Food> foodList = new ArrayList<>();
-    private Food food;
+    private Food.FoodBuilder foodBuilder;
     private StringBuilder text;
 
     @Override
-    public void startDocument() throws SAXException {
-        log.info("Parsing started.");
-    }
-
-    @Override
-    public void endDocument() throws SAXException {
-        log.info("Parsing ended.");
-    }
-
-    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        log.info(() -> "startElement -> " + "uri: " + uri + ", localName: " + localName + ", qName: " + qName);
+        log.info(() -> "startElement -> " + "uri: " + uri + ", localName: " + localName);
 
         if (localName.equals("food"))
-            food = new Food(Integer.parseInt(attributes.getValue("id")));
+            foodBuilder = Food.builder().id(Integer.parseInt(attributes.getValue("id")));
         else
             text = new StringBuilder();
     }
@@ -44,27 +35,26 @@ public class MenuSaxHandler implements DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         switch (localName) {
-            case "name": food.setName(text.toString()); break;
-            case "price": food.setPrice(text.toString()); break;
-            case "description": food.setDescription(text.toString()); break;
-            case "calories": food.setCalories(Integer.parseInt(text.toString())); break;
-            case "food": foodList.add(food); food = null;
+            case "name":
+                foodBuilder.name(text.toString());
+                break;
+            case "price":
+                foodBuilder.price(text.toString());
+                break;
+            case "description":
+                foodBuilder.description(text.toString());
+                break;
+            case "calories":
+                foodBuilder.calories(Integer.parseInt(text.toString()));
+                break;
+            case "food":
+                foodList.add(foodBuilder.build());
+                foodBuilder = null;
         }
     }
 
     @Override
-    public void warning(SAXParseException e) throws SAXException {
-        log.warning(() -> "WARNING: line " + e.getLineNumber() + ": " + e.getMessage());
-    }
-
-    @Override
-    public void error(SAXParseException e) throws SAXException {
-        log.severe(() -> "ERROR: line " + e.getLineNumber() + ": " + e.getMessage());
-    }
-
-    @Override
-    public void fatalError(SAXParseException e) throws SAXException {
-        log.severe(() -> "FATAL: line " + e.getLineNumber() + ": " + e.getMessage());
-        throw e;
+    public Logger getLogger() {
+        return log;
     }
 }

@@ -1,16 +1,11 @@
 package sax;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(exclude = "")
+@Builder
 public class Food {
-
-    public Food(int id) {
-        this.id = id;
-    }
-
     private int id;
     private String name;
     private String price;

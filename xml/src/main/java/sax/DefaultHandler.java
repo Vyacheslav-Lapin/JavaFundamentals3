@@ -3,6 +3,7 @@ package sax;
 import org.xml.sax.*;
 
 public interface DefaultHandler extends ContentHandler, ErrorHandler {
+
     @Override
     default void setDocumentLocator(Locator locator) {
     }
