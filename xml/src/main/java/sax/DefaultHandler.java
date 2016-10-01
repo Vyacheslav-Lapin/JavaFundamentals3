@@ -2,9 +2,7 @@ package sax;
 
 import org.xml.sax.*;
 
-import java.io.IOException;
-
-public interface DefaultHandler extends EntityResolver, ContentHandler, ErrorHandler {
+public interface DefaultHandler extends ContentHandler, ErrorHandler {
     @Override
     default void setDocumentLocator(Locator locator) {
     }
@@ -47,11 +45,6 @@ public interface DefaultHandler extends EntityResolver, ContentHandler, ErrorHan
 
     @Override
     default void skippedEntity(String name) throws SAXException {
-    }
-
-    @Override
-    default InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-        return null;
     }
 
     @Override
