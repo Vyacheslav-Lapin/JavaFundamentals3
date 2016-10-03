@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class StAXMenuParser {
 
     static List<Food> process(XMLStreamReader reader)
