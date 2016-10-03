@@ -1,9 +1,10 @@
-package sax;
+package xml.sax;
 
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import xml.Food;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 public class MenuSaxHandler implements LoggedHandler {
 
     @Getter
-    private List<Food> foodList = new ArrayList<>();
+    private List<Food> foods = new ArrayList<>();
     private Food.FoodBuilder foodBuilder;
     private StringBuilder text;
 
@@ -22,7 +23,8 @@ public class MenuSaxHandler implements LoggedHandler {
         log.info(() -> "startElement -> " + "uri: " + uri + ", localName: " + localName);
 
         if (localName.equals("food"))
-            foodBuilder = Food.builder().id(Integer.parseInt(attributes.getValue("id")));
+            foodBuilder = Food.builder()
+                    .id(Integer.parseInt(attributes.getValue("id")));
         else
             text = new StringBuilder();
     }
@@ -48,7 +50,7 @@ public class MenuSaxHandler implements LoggedHandler {
                 foodBuilder.calories(Integer.parseInt(text.toString()));
                 break;
             case "food":
-                foodList.add(foodBuilder.build());
+                foods.add(foodBuilder.build());
                 foodBuilder = null;
         }
     }

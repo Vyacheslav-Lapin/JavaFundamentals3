@@ -2,8 +2,8 @@ import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import sax.Food;
-import sax.MenuSaxHandler;
+import xml.sax.MenuSaxHandler;
+import xml.Food;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class SaxDemo {
         reader.setContentHandler(handler);
         reader.parse(new InputSource("src/test/resources/menu.xml"));
 
-        List<Food> menu = handler.getFoodList();
+        List<Food> menu = handler.getFoods();
 
         assertThat(menu.size(), is(2));
     }

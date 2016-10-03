@@ -1,9 +1,11 @@
-package sax;
+package xml;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.ToString;
+import lombok.Value;
 
-@Data
+@Value
+@ToString(exclude = "id")
 @Builder
 public class Food {
     private int id;

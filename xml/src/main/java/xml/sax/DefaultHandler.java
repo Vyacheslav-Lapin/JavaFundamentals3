@@ -1,4 +1,4 @@
-package sax;
+package xml.sax;
 
 import org.xml.sax.*;
 
