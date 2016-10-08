@@ -9,3 +9,5 @@ include 'core',
         'threads',
         'jdbc',
         'xml'
+include 'servlets'
+
