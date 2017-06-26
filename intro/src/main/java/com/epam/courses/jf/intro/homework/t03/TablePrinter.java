@@ -1,6 +1,7 @@
 package com.epam.courses.jf.intro.homework.t03;
 
 import java.io.PrintStream;
+import java.util.Locale;
 
 import static java.lang.System.out;
 
@@ -22,7 +23,7 @@ public class TablePrinter {
         printTop(quantity, out);
 
         for (double[] functionResultPair: table.getTable())
-            out.printf("|% 3.9e|% 3.9e|\n", functionResultPair[0], functionResultPair[1]);
+            out.printf(new Locale("en"), "|% 3.9e|% 3.9e|%n", functionResultPair[0], functionResultPair[1]);
 
         printBottom(quantity, out);
     }

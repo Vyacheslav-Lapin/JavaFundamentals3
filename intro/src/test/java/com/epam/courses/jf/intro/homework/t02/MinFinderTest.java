@@ -13,7 +13,7 @@ public class MinFinderTest {
     public void testFindMin() {
         int[] min = new int[1];
         String output = fromSystemOutPrintln(() -> min[0] = findMin(0.1));
-        assertThat(output, is("0.25\n0.1111111111111111"));
+        assertThat(output, is(String.format("0.25%n0.1111111111111111")));
         assertThat(min[0], is(3));
     }
 }

@@ -14,6 +14,7 @@ build
 # Gradle #
 target
 gradlew*
+.gradle
 
 # Package Files #
 *.jar
