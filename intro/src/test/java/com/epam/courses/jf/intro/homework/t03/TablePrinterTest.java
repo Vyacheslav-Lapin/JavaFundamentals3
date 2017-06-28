@@ -3,8 +3,6 @@ package com.epam.courses.jf.intro.homework.t03;
 import common.test.Tests;
 import org.junit.Test;
 
-import java.util.Locale;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
